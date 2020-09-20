@@ -1,0 +1,8 @@
+{
+  "name": "celsus-mobile-client",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "react-native": "0.63.2"
+  }
+}
