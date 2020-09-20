@@ -58,3 +58,5 @@ buck-out/
 
 # Terraform infra
 infra.json
+
+/ios/Pods/
