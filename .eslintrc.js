@@ -6,4 +6,7 @@ module.exports = {
     'react-native/react-native': true,
   },
   ignorePatterns: ['__tests__/*.js'],
+  rules: {
+    'react/prop-types': 'off',
+  },
 };
