@@ -12,8 +12,8 @@ const italic = {
   fontStyle: 'italic',
 };
 
-const iconRegular = {
-  fontSize: 27,
+const largeIcon = {
+  fontSize: 50,
 };
 
 const mediumText = {
@@ -36,7 +36,7 @@ export default StyleSheet.create({
   bold,
   fw500,
   italic,
-  iconRegular,
+  largeIcon,
   extraSmallText,
   largeText,
   smallText,

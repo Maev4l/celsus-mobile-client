@@ -1,18 +1,42 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Item, Input, Button, Text } from 'native-base';
+import { Item, Input, Button, Text, Toast } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
 
 import styles from '../shared/styles';
-
+import { operations } from './duck';
 import { PasswordInput } from '../shared/ui';
+
+const { spinner, animation } = StyleSheet.create({
+  animation: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spinner: {
+    fontSize: 80,
+  },
+});
 
 const SignIn = () => {
   const [state, setState] = useState({
-    loading: false,
     username: '',
     password: '',
+  });
+
+  const { signIn } = operations;
+  const dispatch = useDispatch();
+  const { authenticating } = useSelector((store) => {
+    return {
+      authenticating: store.authn.authenticating,
+    };
   });
 
   const { flex, flexContentCenter, flexCenter, p2, mt3, largeText } = styles;
@@ -21,11 +45,21 @@ const SignIn = () => {
     setState({ ...state, [prop]: value });
   };
 
-  const handleSignIn = () => {};
+  const handleSignIn = () => {
+    const { username, password } = state;
+    setState({ ...state, loading: true });
+    dispatch(signIn(username, password)).catch((e) => {
+      Toast.show({
+        type: 'danger',
+        duration: 5000,
+        text: e.message, // 'Incorrect credentials',
+      });
+    });
+  };
 
-  const { loading, username, password } = state;
+  const { username, password } = state;
 
-  const disableButton = !username || !password || loading;
+  const disableButton = !username || !password || authenticating;
 
   return (
     <SafeAreaView style={[flex]}>
@@ -33,7 +67,7 @@ const SignIn = () => {
         <Item>
           <FontAwesome5 name="user" solid style={[largeText]} />
           <Input
-            editable={!loading}
+            editable={!authenticating}
             autoCapitalize="none"
             placeholder="Username"
             value={username}
@@ -44,7 +78,7 @@ const SignIn = () => {
           />
         </Item>
         <PasswordInput
-          editable={!loading}
+          editable={!authenticating}
           placeholder="Password"
           value={password}
           onChangeText={(value) => handleChange('password', value)}
@@ -62,6 +96,15 @@ const SignIn = () => {
             <Text>Sign In</Text>
           </Button>
         </View>
+        {authenticating && (
+          <Animatable.View
+            style={animation}
+            animation="rotate"
+            iterationCount="infinite"
+            easing="linear">
+            <FontAwesome5 name="spinner" style={spinner} />
+          </Animatable.View>
+        )}
       </View>
     </SafeAreaView>
   );
