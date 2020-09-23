@@ -4,9 +4,7 @@ import { Root } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 import { useSelector } from 'react-redux';
-
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'; // Load FontAwesome5 icons and fonts
 
 import infra from '../infra.json';
@@ -43,7 +41,7 @@ const App = () => {
     <SafeAreaProvider>
       <Root>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{ animationEnabled: false }}>
             {authenticated ? (
               <Stack.Screen
                 name="MainNavigator"

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Item, Input, Button, Text, Toast } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
+import * as Keychain from 'react-native-keychain';
 
 import styles from '../shared/styles';
 import { operations } from './duck';
@@ -33,9 +34,10 @@ const SignIn = () => {
 
   const { signIn } = operations;
   const dispatch = useDispatch();
-  const { authenticating } = useSelector((store) => {
+  const { authenticating, authenticated } = useSelector((store) => {
     return {
       authenticating: store.authn.authenticating,
+      authenticated: store.authn.authenticated,
     };
   });
 
@@ -45,9 +47,7 @@ const SignIn = () => {
     setState({ ...state, [prop]: value });
   };
 
-  const handleSignIn = () => {
-    const { username, password } = state;
-    setState({ ...state, loading: true });
+  const login = (username, password) => {
     dispatch(signIn(username, password)).catch((e) => {
       Toast.show({
         type: 'danger',
@@ -57,6 +57,26 @@ const SignIn = () => {
     });
   };
 
+  const handleSignIn = () => {
+    const { username, password } = state;
+    login(username, password);
+  };
+
+  useEffect(() => {
+    const bootstrap = async () => {
+      // Read the credentials from the secure storage
+      const { username, password } = await Keychain.getGenericPassword();
+
+      // Validate them
+      if (username && password) {
+        setState({ ...state, username, password });
+        login(username, password);
+      }
+    };
+
+    bootstrap();
+  }, []);
+
   const { username, password } = state;
 
   const disableButton = !username || !password || authenticating;
@@ -64,39 +84,7 @@ const SignIn = () => {
   return (
     <SafeAreaView style={[flex]}>
       <View style={[flex, p2, flexContentCenter, flexCenter]}>
-        <Item>
-          <FontAwesome5 name="user" solid style={[largeText]} />
-          <Input
-            editable={!authenticating}
-            autoCapitalize="none"
-            placeholder="Username"
-            value={username}
-            onChangeText={(value) => handleChange('username', value)}
-            textContentType="none"
-            autoFocus
-            onSubmitEditing={handleSignIn}
-          />
-        </Item>
-        <PasswordInput
-          editable={!authenticating}
-          placeholder="Password"
-          value={password}
-          onChangeText={(value) => handleChange('password', value)}
-          onSubmitEditing={handleSignIn}
-          style={mt3}
-          lockIconStyle={largeText}
-          eyeIconStyle={largeText}
-        />
-        <View style={[mt3]}>
-          <Button
-            disabled={disableButton}
-            primary={!disableButton}
-            onPress={handleSignIn}
-            large>
-            <Text>Sign In</Text>
-          </Button>
-        </View>
-        {authenticating && (
+        {authenticating ? (
           <Animatable.View
             style={animation}
             animation="rotate"
@@ -104,6 +92,43 @@ const SignIn = () => {
             easing="linear">
             <FontAwesome5 name="spinner" style={spinner} />
           </Animatable.View>
+        ) : (
+          !authenticated && (
+            <>
+              <Item>
+                <FontAwesome5 name="user" solid style={[largeText]} />
+                <Input
+                  editable={!authenticating}
+                  autoCapitalize="none"
+                  placeholder="Username"
+                  value={username}
+                  onChangeText={(value) => handleChange('username', value)}
+                  textContentType="none"
+                  autoFocus
+                  onSubmitEditing={handleSignIn}
+                />
+              </Item>
+              <PasswordInput
+                editable={!authenticating}
+                placeholder="Password"
+                value={password}
+                onChangeText={(value) => handleChange('password', value)}
+                onSubmitEditing={handleSignIn}
+                style={mt3}
+                lockIconStyle={largeText}
+                eyeIconStyle={largeText}
+              />
+              <View style={[mt3]}>
+                <Button
+                  disabled={disableButton}
+                  primary={!disableButton}
+                  onPress={handleSignIn}
+                  large>
+                  <Text>Sign In</Text>
+                </Button>
+              </View>
+            </>
+          )
         )}
       </View>
     </SafeAreaView>

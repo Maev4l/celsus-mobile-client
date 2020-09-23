@@ -1,5 +1,5 @@
 import { Auth } from '@aws-amplify/auth';
-
+import * as Keychain from 'react-native-keychain';
 import actions from './actions';
 
 const {
@@ -14,7 +14,9 @@ const {
 const signIn = (username, password) => async (dispatch) => {
   dispatch(authenticating());
   try {
+    await Keychain.setGenericPassword(username, password);
     await Auth.signIn(username, password);
+
     dispatch(authenticationSucceeded());
   } catch (e) {
     dispatch(authenticationFailed(e));
