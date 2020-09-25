@@ -9,6 +9,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'; // Load Fo
 
 import infra from '../infra.json';
 import SignIn from './authentication/SignIn';
+import Biometrics from './authentication/Biometrics';
 import MainNavigator from './Navigator';
 
 // ---> Load FontAwesome5 icons and fonts
@@ -49,11 +50,18 @@ const App = () => {
                 options={{ headerShown: false }}
               />
             ) : (
-              <Stack.Screen
-                name="SignIn"
-                component={SignIn}
-                options={{ headerShown: false }}
-              />
+              <>
+                <Stack.Screen
+                  name="Biometrics"
+                  component={Biometrics}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SignIn"
+                  component={SignIn}
+                  options={{ headerShown: false }}
+                />
+              </>
             )}
           </Stack.Navigator>
         </NavigationContainer>

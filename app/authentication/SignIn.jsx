@@ -5,8 +5,8 @@ import { Item, Input, Button, Text, Toast } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import * as Keychain from 'react-native-keychain';
 
+import { readCredentials } from './secure-storage';
 import styles from '../shared/styles';
 import { operations } from './duck';
 import { PasswordInput } from '../shared/ui';
@@ -53,6 +53,8 @@ const SignIn = () => {
         type: 'danger',
         duration: 5000,
         text: e.message, // 'Incorrect credentials',
+        position: 'top',
+        style: { ...mt3 },
       });
     });
   };
@@ -63,15 +65,15 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    const bootstrap = async () => {
+    const bootstrap = () => {
       // Read the credentials from the secure storage
-      const { username, password } = await Keychain.getGenericPassword();
-
-      // Validate them
-      if (username && password) {
-        setState({ ...state, username, password });
-        login(username, password);
-      }
+      readCredentials().then(({ username, password }) => {
+        // Validate them
+        if (username && password) {
+          setState({ ...state, username, password });
+          login(username, password);
+        }
+      });
     };
 
     bootstrap();
