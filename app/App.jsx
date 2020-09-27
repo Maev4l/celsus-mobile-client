@@ -1,5 +1,6 @@
 import React from 'react';
 import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
 import { Root } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,6 +29,10 @@ Amplify.configure({
   },
   API: {
     graphql_endpoint: 'https://api-celsus.isnan.eu/graphql',
+    graphql_headers: async () => {
+      const currentSession = await Auth.currentSession();
+      return { Authorization: currentSession.getIdToken().getJwtToken() };
+    },
   },
 });
 

@@ -1,8 +1,16 @@
 import React from 'react';
-import { Text } from 'native-base';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-const Navigator = () => {
-  return <Text>Navigator</Text>;
-};
+import Libraries from './libraries/Libraries';
+import Contacts from './contacts/Contacts';
+
+const Drawer = createDrawerNavigator();
+
+const Navigator = () => (
+  <Drawer.Navigator initialRouteName="Libraries">
+    <Drawer.Screen name="Libraries" component={Libraries} />
+    <Drawer.Screen name="Contacts" component={Contacts} />
+  </Drawer.Navigator>
+);
 
 export default Navigator;
