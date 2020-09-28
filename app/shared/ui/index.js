@@ -1,2 +1,2 @@
-/* eslint-disable import/prefer-default-export */
 export { default as PasswordInput } from './PasswordInput';
+export { default as BooksList } from './BooksList';
