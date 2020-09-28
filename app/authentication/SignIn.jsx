@@ -1,30 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Item, Input, Button, Text, Toast } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Animatable from 'react-native-animatable';
 
 import { readCredentials } from './secure-storage';
 import styles from '../shared/styles';
 import { operations } from './duck';
-import { PasswordInput } from '../shared/ui';
-
-const { spinner, animation } = StyleSheet.create({
-  animation: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  spinner: {
-    fontSize: 80,
-  },
-});
+import { PasswordInput, Loading } from '../shared/ui';
 
 const SignIn = () => {
   const [state, setState] = useState({
@@ -87,13 +71,7 @@ const SignIn = () => {
     <SafeAreaView style={[flex]}>
       <View style={[flex, p2, flexContentCenter, flexCenter]}>
         {authenticating ? (
-          <Animatable.View
-            style={animation}
-            animation="rotate"
-            iterationCount="infinite"
-            easing="linear">
-            <FontAwesome5 name="spinner" style={spinner} />
-          </Animatable.View>
+          <Loading />
         ) : (
           !authenticated && (
             <>
