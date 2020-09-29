@@ -11,6 +11,7 @@ export const FetchLibraryBooks = `query FetchLibraryBooks ($id: ID!, $page:Int =
             books {
                 id,
                 title,
+                authors,
                 thumbnail,
                 library {
                     id,

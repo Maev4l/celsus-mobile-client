@@ -6,6 +6,7 @@ import { graphql } from '../shared/api-client';
 import { ListLibraries } from './queries';
 import LibraryListItem from './LibraryListItem';
 import styles from '../shared/styles';
+import { Loading } from '../shared/ui';
 
 const LibrariesList = () => {
   const [state, setState] = useState({ loading: false, libraries: [] });
@@ -23,7 +24,11 @@ const LibrariesList = () => {
     fetchData();
   }, []);
 
-  const { libraries } = state;
+  const { loading, libraries } = state;
+
+  if (loading) {
+    return <Loading size="medium" />;
+  }
 
   return (
     <SafeAreaView style={[flex]}>
