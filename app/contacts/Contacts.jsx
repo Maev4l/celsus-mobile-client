@@ -1,11 +1,18 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text } from 'native-base';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import ContactsList from './ContactsList';
+
+const Stack = createStackNavigator();
 
 const Contacts = () => (
-  <SafeAreaView>
-    <Text>Contacts</Text>
-  </SafeAreaView>
+  <Stack.Navigator>
+    <Stack.Screen
+      name="ContactsList"
+      component={ContactsList}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
 );
 
 export default Contacts;
