@@ -42,7 +42,7 @@ const BookListItem = ({ book, onPress, showLibrary }) => {
 
   const onPressBook = () => {
     if (onPress) {
-      onPress(bookId);
+      onPress({ bookId, title });
     }
   };
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Container, Content } from 'native-base';
 
 import { graphql } from '../shared/api-client';
@@ -31,16 +30,14 @@ const LibrariesList = () => {
   }
 
   return (
-    <SafeAreaView style={[flex]}>
-      <Container>
-        <Content padder>
-          {libraries.map((library) => {
-            const { id } = library;
-            return <LibraryListItem key={id} library={library} />;
-          })}
-        </Content>
-      </Container>
-    </SafeAreaView>
+    <Container style={[flex]}>
+      <Content padder>
+        {libraries.map((library) => {
+          const { id } = library;
+          return <LibraryListItem key={id} library={library} />;
+        })}
+      </Content>
+    </Container>
   );
 };
 

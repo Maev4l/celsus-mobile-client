@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Container, Content } from 'native-base';
 
 import { graphql } from '../shared/api-client';
 import { ListContacts } from './queries';
 
-import styles from '../shared/styles';
 import { Loading } from '../shared/ui';
 import ContactListItem from './ContactListItem';
 
 const ContactsList = () => {
-  const { flex } = styles;
   const [state, setState] = useState({ loading: false, contacts: [] });
 
   const fetchData = async () => {
@@ -31,16 +28,14 @@ const ContactsList = () => {
   }
 
   return (
-    <SafeAreaView style={[flex]}>
-      <Container>
-        <Content padder>
-          {contacts.map((contact) => {
-            const { id } = contact;
-            return <ContactListItem key={id} contact={contact} />;
-          })}
-        </Content>
-      </Container>
-    </SafeAreaView>
+    <Container>
+      <Content padder>
+        {contacts.map((contact) => {
+          const { id } = contact;
+          return <ContactListItem key={id} contact={contact} />;
+        })}
+      </Content>
+    </Container>
   );
 };
 

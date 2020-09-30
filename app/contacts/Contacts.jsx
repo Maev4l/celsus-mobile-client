@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { HeaderLeft } from '../shared/ui';
 
 import ContactsList from './ContactsList';
 
@@ -10,7 +11,7 @@ const Contacts = () => (
     <Stack.Screen
       name="ContactsList"
       component={ContactsList}
-      options={{ headerShown: false }}
+      options={{ title: 'Contacts', headerLeft: () => <HeaderLeft /> }}
     />
   </Stack.Navigator>
 );

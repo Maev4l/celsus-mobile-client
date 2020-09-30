@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 import { graphql } from '../shared/api-client';
@@ -14,6 +14,8 @@ const LibrariesContent = ({ navigation }) => {
     },
   } = useRoute();
 
+  const { flex, p2 } = styles;
+
   const fetchData = async (page) => {
     const {
       library: { content },
@@ -22,15 +24,14 @@ const LibrariesContent = ({ navigation }) => {
     return content;
   };
 
-  const onPressBook = (bookId) => {
-    navigation.navigate('BookDetails', { bookId });
+  const onPressBook = ({ bookId, title }) => {
+    navigation.navigate('BookDetails', { bookId, title });
   };
 
-  const { flex, p2 } = styles;
   return (
-    <SafeAreaView style={[flex, p2]}>
+    <View style={[flex, p2]}>
       <BooksList fetchData={fetchData} onPress={onPressBook} refreshable />
-    </SafeAreaView>
+    </View>
   );
 };
 

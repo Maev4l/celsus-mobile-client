@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchScreen from './SearchScreen';
 import BookDetails from '../books/BookDetails';
+import { HeaderLeft, HeaderBack } from '../shared/ui';
 
 const Stack = createStackNavigator();
 
@@ -11,12 +12,20 @@ const Search = () => (
     <Stack.Screen
       name="SearchScreen"
       component={SearchScreen}
-      options={{ headerShown: false }}
+      options={{ title: 'Search', headerLeft: () => <HeaderLeft /> }}
     />
     <Stack.Screen
       name="SearchBookDetails"
       component={BookDetails}
-      options={{ headerShown: false }}
+      options={({ route }) => {
+        const {
+          params: { title },
+        } = route;
+        return {
+          title,
+          ...HeaderBack,
+        };
+      }}
     />
   </Stack.Navigator>
 );
