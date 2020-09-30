@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Input, Button, Item } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -45,7 +45,7 @@ const SearchScreen = ({ navigation }) => {
 
   const { query } = state;
   return (
-    <View style={[flex, p2]}>
+    <SafeAreaView style={[flex, p2]}>
       <Item regular>
         <Input
           value={query}
@@ -68,7 +68,7 @@ const SearchScreen = ({ navigation }) => {
         aggregateFetchedData={false}
         showLibrary
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
