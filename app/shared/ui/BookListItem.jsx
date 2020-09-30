@@ -1,7 +1,6 @@
 import React from 'react';
 import { ListItem, Body, Thumbnail, Text } from 'native-base';
 import { View, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import styles from '../styles';
 import { BookThumbnailPlaceHolder } from '../assets';
@@ -20,7 +19,7 @@ const { bookThumbnail, libraryLabel } = StyleSheet.create({
   },
 });
 
-const BookListItem = ({ book, showLibrary }) => {
+const BookListItem = ({ book, onPress, showLibrary }) => {
   const {
     id: bookId,
     title,
@@ -41,10 +40,10 @@ const BookListItem = ({ book, showLibrary }) => {
     flexSelfStart,
   } = styles;
 
-  const navigation = useNavigation();
-
-  const onPress = () => {
-    navigation.navigate('BookDetails', { bookId });
+  const onPressBook = () => {
+    if (onPress) {
+      onPress(bookId);
+    }
   };
 
   const source = thumbnail
@@ -52,7 +51,7 @@ const BookListItem = ({ book, showLibrary }) => {
     : BookThumbnailPlaceHolder;
 
   return (
-    <ListItem style={{ marginLeft: 0 }} onPress={onPress}>
+    <ListItem style={{ marginLeft: 0 }} onPress={onPressBook}>
       <Body style={[flex, flexCenter, flexRow]}>
         <Thumbnail square style={[bookThumbnail]} source={source} />
         <View style={[pl3, flex, flexCenter, flexColumn]}>

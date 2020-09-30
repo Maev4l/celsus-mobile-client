@@ -7,7 +7,7 @@ import { FetchLibraryBooks } from './queries';
 import styles from '../shared/styles';
 import { BooksList } from '../shared/ui';
 
-const LibrariesContent = () => {
+const LibrariesContent = ({ navigation }) => {
   const {
     params: {
       library: { id: libraryId },
@@ -22,10 +22,14 @@ const LibrariesContent = () => {
     return content;
   };
 
+  const onPressBook = (bookId) => {
+    navigation.navigate('BookDetails', { bookId });
+  };
+
   const { flex, p2 } = styles;
   return (
     <SafeAreaView style={[flex, p2]}>
-      <BooksList fetchData={fetchData} refreshable />
+      <BooksList fetchData={fetchData} onPress={onPressBook} refreshable />
     </SafeAreaView>
   );
 };

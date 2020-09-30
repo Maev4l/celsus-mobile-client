@@ -62,7 +62,7 @@ const BookDetail = () => {
   const { loading } = state;
 
   if (loading) {
-    return <Loading />;
+    return <Loading size="medium" />;
   }
 
   const {

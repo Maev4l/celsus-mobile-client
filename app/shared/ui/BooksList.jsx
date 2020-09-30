@@ -4,7 +4,14 @@ import { FlatList } from 'react-native';
 import BookListItem from './BookListItem';
 import Loading from './Loading';
 
-const BooksList = ({ fetchData, refreshable = false }) => {
+const BooksList = ({
+  fetchData,
+  onPress,
+  aggregateFetchedData = true,
+  refreshable = false,
+  refetch = false,
+  showLibrary = false,
+}) => {
   const [state, setState] = useState({
     loading: false,
     refreshing: false,
@@ -21,12 +28,18 @@ const BooksList = ({ fetchData, refreshable = false }) => {
       // a standard refresh control when refreshing
       setState({ ...state, loading: !refresh, refeshing: refresh });
       fetchData(page).then(({ books: fetchedBooks, total, itemsPerPage }) => {
-        const { books } = state;
+        const { books: previousBooks } = state;
         setState({
           ...state,
           loading: false,
           refeshing: false,
-          books: refresh ? fetchedBooks : [...books, ...fetchedBooks],
+          // If refreshing, remove previous books, just display the new fetched books
+          // however, in the some case such as search workflows, we do not want to aggregate
+          // the previous books with the new fetched books
+          books:
+            !aggregateFetchedData || refresh
+              ? fetchedBooks
+              : [...previousBooks, ...fetchedBooks],
           total,
           itemsPerPage,
           page,
@@ -43,7 +56,7 @@ const BooksList = ({ fetchData, refreshable = false }) => {
 
   useEffect(() => {
     internalFetchData(1, true);
-  }, []);
+  }, [refetch]);
 
   const { loading, refreshing, books, page } = state;
 
@@ -55,7 +68,11 @@ const BooksList = ({ fetchData, refreshable = false }) => {
         onRefresh={refreshable ? onRefresh : null}
         keyExtractor={(item) => (item ? item.id : null)}
         renderItem={({ item }) => (
-          <BookListItem book={item} showLibrary={false} />
+          <BookListItem
+            book={item}
+            showLibrary={showLibrary}
+            onPress={onPress}
+          />
         )}
         onEndReachedThreshold={0.5}
         initialNumToRender={20}
