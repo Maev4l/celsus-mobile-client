@@ -44,6 +44,7 @@ const SideBar = (props) => {
             style={[pl2, mt2, mb2]}
             onPress={() => navigation.navigate('Search')}
           />
+          {/* 
           <SideBarItem
             label="Settings"
             icon="cog"
@@ -58,6 +59,7 @@ const SideBar = (props) => {
             style={[pl2, mt2, mb2]}
             onPress={() => navigation.navigate('Information')}
           />
+          */}
         </View>
       </SafeAreaView>
     </ScrollView>

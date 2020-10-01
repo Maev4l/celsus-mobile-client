@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Text } from 'native-base';
 
 import { operations } from './duck';
-import { readCredentials, resetCredentials } from './secure-storage';
+import { readCredentials, resetCredentials } from '../shared/secure-storage';
 
 const Biometrics = ({ navigation }) => {
   const { signIn } = operations;

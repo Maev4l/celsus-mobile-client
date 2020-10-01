@@ -5,7 +5,7 @@ import { Item, Input, Button, Text, Toast } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { readCredentials } from './secure-storage';
+import { readCredentials } from '../shared/secure-storage';
 import styles from '../shared/styles';
 import { operations } from './duck';
 import { PasswordInput, Loading } from '../shared/ui';

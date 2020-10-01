@@ -1,6 +1,6 @@
 import { Auth } from '@aws-amplify/auth';
 
-import { saveCredentials } from '../secure-storage';
+import { saveCredentials } from '../../shared/secure-storage/secure-storage';
 import actions from './actions';
 
 const {
