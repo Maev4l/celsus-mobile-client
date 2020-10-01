@@ -13,7 +13,10 @@ const authenticating = () => ({
   type: SIGN_IN,
 });
 
-const authenticationSucceeded = () => ({ type: SIGN_IN_SUCCESS });
+const authenticationSucceeded = (username) => ({
+  type: SIGN_IN_SUCCESS,
+  username,
+});
 
 const authenticationFailed = (error) => ({ type: SIGN_IN_ERROR, error });
 

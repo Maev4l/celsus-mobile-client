@@ -19,7 +19,7 @@ const signIn = (username, password) => async (dispatch) => {
 
     await Auth.signIn(username, password);
 
-    dispatch(authenticationSucceeded());
+    dispatch(authenticationSucceeded(username));
   } catch (e) {
     dispatch(authenticationFailed(e));
     throw e;

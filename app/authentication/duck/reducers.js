@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   authenticated: false,
   authenticating: false,
   error: null,
+  username: '',
 };
 
 const authn = (state = INITIAL_STATE, action) => {
@@ -20,8 +21,12 @@ const authn = (state = INITIAL_STATE, action) => {
   switch (type) {
     case SIGN_IN:
       return { ...state, authenticated: false, authenticating: true };
-    case SIGN_IN_SUCCESS:
-      return { ...state, authenticated: true, authenticating: false };
+
+    case SIGN_IN_SUCCESS: {
+      const { username } = action;
+      return { ...state, authenticated: true, authenticating: false, username };
+    }
+
     case SIGN_IN_ERROR: {
       const { error } = action;
       return {
@@ -37,7 +42,9 @@ const authn = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         authenticated: false,
+        authenticating: false,
         error: null,
+        username: '',
       };
     }
     default:

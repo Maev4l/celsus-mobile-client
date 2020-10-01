@@ -11,7 +11,13 @@ const { iconStyle } = StyleSheet.create({
   },
 });
 
-const SideBarItem = ({ icon, label, destination, navigation, focused }) => {
+const SideBarItem = ({
+  icon,
+  label,
+  /* focused, */
+  style,
+  onPress,
+}) => {
   const [iconImage, setIconImage] = useState();
 
   useEffect(() => {
@@ -23,14 +29,11 @@ const SideBarItem = ({ icon, label, destination, navigation, focused }) => {
     ).then((source) => setIconImage(source));
   }, []);
 
-  const { flex, pl2, mt2, mb2, flexRow, flexCenter, largeText } = styles;
-  const onPress = () => {
-    navigation.navigate(destination);
-  };
+  const { pl2, flex, flexRow, flexCenter, largeText } = styles;
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[pl2, mt2, mb2, flex, flexRow, flexCenter]}>
+      <View style={[flex, flexRow, flexCenter, ...style]}>
         <Image resizeMode="center" source={iconImage} style={[iconStyle]} />
         <Text style={[largeText, pl2]}>{label}</Text>
       </View>

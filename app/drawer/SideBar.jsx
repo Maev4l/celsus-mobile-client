@@ -1,57 +1,62 @@
 import React from 'react';
 import { ScrollView, View, SafeAreaView } from 'react-native';
+import { Title } from 'native-base';
+import { useSelector } from 'react-redux';
 
 import SideBarItem from './SideBarItem';
 import styles from '../shared/styles';
 
 const SideBar = (props) => {
-  const { flex, flexColumn, mt3 } = styles;
+  const { flex, flexColumn, mt3, mt2, mb2, pl2 } = styles;
   const {
     navigation,
     state: { index },
   } = props;
 
+  const { username } = useSelector((store) => ({
+    username: store.authn.username,
+  }));
   return (
     <ScrollView alwaysBounceVertical={false}>
       <SafeAreaView
         style={[flex]}
         forceInset={{ top: 'always', horizontal: 'never' }}>
-        {/* Navigation Items */}
         <View style={[flex, flexColumn, mt3]}>
+          <Title style={[pl2, mt2, mb2]}>Welcome {username} !</Title>
           <SideBarItem
             label="Libraries"
-            destination="Libraries"
             icon="book"
-            navigation={navigation}
             focused={index === 0}
+            style={[pl2, mt2, mb2]}
+            onPress={() => navigation.navigate('Libraries')}
           />
           <SideBarItem
             label="Contacts"
-            destination="Contacts"
             icon="user-friends"
-            navigation={navigation}
             focused={index === 1}
+            style={[pl2, mt2, mb2]}
+            onPress={() => navigation.navigate('Contacts')}
           />
           <SideBarItem
             label="Search"
-            destination="Search"
             icon="search"
-            navigation={navigation}
             focused={index === 2}
+            style={[pl2, mt2, mb2]}
+            onPress={() => navigation.navigate('Search')}
           />
           <SideBarItem
             label="Settings"
-            destination="SettingsStack"
             icon="cog"
-            navigation={navigation}
             focused={index === 3}
+            style={[pl2, mt2, mb2]}
+            onPress={() => navigation.navigate('Settings')}
           />
           <SideBarItem
             label="Information"
-            destination="Information"
             icon="info-circle"
-            navigation={navigation}
             focused={index === 4}
+            style={[pl2, mt2, mb2]}
+            onPress={() => navigation.navigate('Information')}
           />
         </View>
       </SafeAreaView>
